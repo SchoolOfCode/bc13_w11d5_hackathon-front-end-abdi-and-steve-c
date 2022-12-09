@@ -27,7 +27,7 @@ function ToDoList() {
     });
     const response = await data.json();
     if (response.success === true) {
-      setTodos([...todos, todo]);
+      setTodos([...todos, response.payload]);
     }
 
 
@@ -41,10 +41,18 @@ function ToDoList() {
 		setTodos(newTodos);
 	}
 
-  function deleteTodo(index){
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+  async function deleteTodo(index){
+    const id = todos[index].id;
+    const data = await fetch(`http://localhost:3500/todos/${id}`,
+    {method: 'DELETE',
+    headers: {"Content-Type": "application/json"}})
+   
+    const response = await data.json();
+    if (response.success === true) {
+      const newTodos = [...todos];
+      newTodos.splice(index, 1);
+      setTodos(newTodos);
+    }
   }
 
 	return (
