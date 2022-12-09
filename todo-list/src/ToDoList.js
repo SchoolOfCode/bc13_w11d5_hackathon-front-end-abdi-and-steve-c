@@ -2,11 +2,21 @@ import React, { useState } from 'react'
 
 function ToDoList(){
   const [todos, setTodos] = useState([])
+  
 
   function addTodo(e){
     e.preventDefault()
-    const todo = e.target.elements.todo.value
+      const todo = {
+      text: e.target.elements.todo.value,
+      completed: false,
+    }
     setTodos([...todos, todo])
+  }
+
+  function toggleTodo(index){
+    const newTodos = [...todos]
+    newTodos[index].completed = !newTodos[index].completed
+    setTodos(newTodos)
   }
 
   return(
@@ -18,7 +28,8 @@ function ToDoList(){
       </form>
       <ul className='BulletList'>
         {todos.map((todo, index) => (
-          <li key={index}>{todo.task}</li>
+          <li key={index} onClick={()=> toggleTodo(index)}>{todo.text}
+          </li>
         ))}
       </ul>
     </div>
