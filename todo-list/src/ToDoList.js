@@ -35,10 +35,20 @@ function ToDoList() {
     e.target.elements.todo.value = '';
 	}
 
-	function toggleTodo(index) {
-		const newTodos = [...todos];
-		newTodos[index].completed = !newTodos[index].completed;
-		setTodos(newTodos);
+	async function toggleTodo(index) {
+		const id  = todos[index].id;
+		const data = await fetch(`http://localhost:3500/todos/${id}`,
+		{method: 'PATCH',
+		headers: {"Content-Type": "application/json"},
+		body: JSON.stringify({completed: !todos[index].completed})
+		})
+		const response = await data.json();
+		if (response.success === true)	{
+			const newTodos = [...todos];
+			newTodos[index].completed = !newTodos[index].completed;
+			setTodos(newTodos);
+		}
+		
 	}
 
   async function deleteTodo(index){
