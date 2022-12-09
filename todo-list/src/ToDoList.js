@@ -20,6 +20,7 @@ function ToDoList() {
 			completed: false,
 		};
 		setTodos([...todos, todo]);
+    e.target.elements.todo.value = '';
 	}
 
 	function toggleTodo(index) {
@@ -27,6 +28,12 @@ function ToDoList() {
 		newTodos[index].completed = !newTodos[index].completed;
 		setTodos(newTodos);
 	}
+
+  function deleteTodo(index){
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  }
 
 	return (
 		<div className="ToDoList">
@@ -37,8 +44,13 @@ function ToDoList() {
 			</form>
 			<ul className="BulletList">
 				{todos.map((todo, index) => (
-					<li key={index} onClick={() => toggleTodo(index)}>
-						{todo.task}
+					<li key={index}>
+            <span
+              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+            >{todo.task}</span>
+						
+          <button type="submit" onClick={()=> deleteTodo(index)}>Delete Todo</button>
+          <button type="submit" onClick={() => toggleTodo(index)} >Completed</button>
 					</li>
 				))}
 			</ul>
