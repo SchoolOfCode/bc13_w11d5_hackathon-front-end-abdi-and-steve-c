@@ -10,14 +10,15 @@ function ToDoList(){
   }
 
   return(
-    <div>
+    <div className="ToDoList">
+    <h1 className="Title">ToDoList</h1>
       <form onSubmit={addTodo}>
         <input type="text" name="todo" />
         <button type="submit">Add Todo</button>
       </form>
-      <ul>
+      <ul className='BulletList'>
         {todos.map((todo, index) => (
-          <li key={index}>{todo}</li>
+          <li key={index}>{todo.task}</li>
         ))}
       </ul>
     </div>
