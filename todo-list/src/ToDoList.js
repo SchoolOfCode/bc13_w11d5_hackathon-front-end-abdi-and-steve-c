@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-function ToDoList() {
+function ToDoList({url}) {
 	const [todos, setTodos] = useState([]);
 
 	useEffect(() => {
 		async function getTodos() {
-			const data = await fetch("http://localhost:3500/todos");
+			const data = await fetch(`${url}/todos`);
 			const response = await data.json();
 
 			setTodos(response.payload);
 		}
 		getTodos();
-	}, []);
+	}, [url]);
 
   
 	async function addTodo(e) {
@@ -20,7 +20,7 @@ function ToDoList() {
 			task: e.target.elements.todo.value,
 			completed: false,
 		};
-    const data = await fetch("http://localhost:3500/todos",
+    const data = await fetch(`${url}/todos`,
     {method: 'POST',
     headers: {"Content-Type": "application/json"}, 
     body: JSON.stringify(todo)
@@ -37,7 +37,7 @@ function ToDoList() {
 
 	async function toggleTodo(index) {
 		const id  = todos[index].id;
-		const data = await fetch(`http://localhost:3500/todos/${id}`,
+		const data = await fetch(`${url}/todos/${id}`,
 		{method: 'PATCH',
 		headers: {"Content-Type": "application/json"},
 		body: JSON.stringify({completed: !todos[index].completed})
@@ -53,7 +53,7 @@ function ToDoList() {
 
   async function deleteTodo(index){
     const id = todos[index].id;
-    const data = await fetch(`http://localhost:3500/todos/${id}`,
+    const data = await fetch(`${url}/todos/${id}`,
     {method: 'DELETE',
     headers: {"Content-Type": "application/json"}})
    
