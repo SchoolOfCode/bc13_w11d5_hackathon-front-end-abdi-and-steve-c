@@ -13,13 +13,25 @@ function ToDoList() {
 		getTodos();
 	}, []);
 
-	function addTodo(e) {
+  
+	async function addTodo(e) {
 		e.preventDefault();
 		const todo = {
 			task: e.target.elements.todo.value,
 			completed: false,
 		};
-		setTodos([...todos, todo]);
+    const data = await fetch("http://localhost:3500/todos",
+    {method: 'POST',
+    headers: {"Content-Type": "application/json"}, 
+    body: JSON.stringify(todo)
+    });
+    const response = await data.json();
+    if (response.success === true) {
+      setTodos([...todos, todo]);
+    }
+
+
+
     e.target.elements.todo.value = '';
 	}
 
